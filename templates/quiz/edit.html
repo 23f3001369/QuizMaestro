@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Edit Quiz
+{% endblock %}
+
+{% block content %}
+    <h1>Edit Quiz</h1>
+    <form method="post" class="form">
+        <label for="title" class="form-label">Quiz Title:
+            <input type="text" name="title" id="title" class="form-control" required value="{{ quiz.title }}"/>
+        </label>
+        
+        <label for="quiz_date" class="form-label">Quiz Date:
+            <input type="date" name="quiz_date" id="quiz_date" class="form-control" required value="{{ quiz.quiz_date }}">
+        </label>
+
+
+        <label for="duration" class="form-label">Duration (in minutes):
+            <input type="number" class="form-control" id="duration" name="duration" required value = "{{quiz.duration}}">
+        </label>
+        
+
+
+        <input type="submit" value="Save" class="btn btn-success">
+    </form>
+{% endblock %}
+
+{% block script %}
+<script>
+    // Set min date to today for the quiz date input
+    document.getElementById("quiz_date").min = new Date().toISOString().split('T')[0];
+</script>
+{% endblock %}
+
+{% block style %}
+<style>
+    h1 {
+        text-align: center;    
+    }
+    .form {
+        margin-top: 32px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    input[type="date"] {
+        width: 200px;
+        padding: 10px;
+        border-radius: 5px;
+        font-size: 16px;
+        box-sizing: border-box;
+        appearance: none;
+    }
+</style>
+{% endblock %}
+
+

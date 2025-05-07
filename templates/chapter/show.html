@@ -1,0 +1,77 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Quizzes for {{ chapter.name }} 
+{% endblock %}
+
+{% block content %}
+    <h1>Quizzes for {{ chapter.name }} </h1>
+    
+    <div class="heading">
+        <h2 class="text-muted">Manage Quizzes</h2>
+        <a class = "btn btn-success" href="{{url_for('add_quiz', chapter_id=chapter.id)}}">
+            <i class="fas fa-plus fa-xs"></i>
+            Add Quiz
+        </a>
+    </div>
+
+    <h5 class="text-muted">
+        <em>Showing all quizzes for {{ chapter.name }}.</em>
+    </h5>
+    <form class="d-flex ms-auto mb-3" role="search" action="{{ url_for('show_chapter', chapter_id=chapter.id) }}" method="GET">
+        <input class="form-control me-2" type="search" name="query" placeholder="Search Quiz" aria-label="Search">
+        
+        <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Quiz ID</th>
+                <th>Quiz Title</th>
+                <th>Quiz Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for quiz in quizzes %}
+                <tr>
+                    <td>{{ quiz.id }}</td>
+                    <td>{{ quiz.title }}</td>
+                    <td>{{ quiz.quiz_date }}</td>
+                    <td>
+                        <a class="btn btn-outline-success" href="{{ url_for('show_quiz', quiz_id=quiz.id) }}">
+                            <i class="fas fa-eye fa-xs"></i> Show
+                        </a>
+
+                        <a class="btn btn-primary" href="{{ url_for('edit_quiz', quiz_id=quiz.id) }}">
+                            <i class="fas fa-edit fa-xs"></i> Edit
+                        </a>
+
+                        <a class="btn btn-danger" href="{{url_for('delete_quiz', quiz_id=quiz.id)}}" method="POST">
+                            <i class="fas fa-trash fa-xs"></i>
+                            Delete
+                        </a>
+
+                        <a href="{{ url_for('quiz_summary', quiz_id=quiz.id) }}" class="btn btn-info">
+                            <i class="fas fa-chart-bar"></i> View Summary
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block style %}
+<style>
+    .heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    h1, h2 {
+        text-align: center;
+    }
+</style>
+{% endblock %}

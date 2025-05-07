@@ -1,0 +1,154 @@
+{% extends 'layout.html' %}
+
+{% block title %} User Summary - {{ user.name }} {% endblock %}
+
+{% block content %}
+
+<div class="summary-container">
+    <div class="heading">
+        <h2>Quiz Summary for {{ user.name }}</h2>
+        <h3>Username: {{ user.username }}</h3>
+        <button type="button" class="btn btn-primary print-btn" onclick="window.print()">
+            <i class="fas fa-print fa-xs"></i> Print
+        </button>
+    </div>
+
+    <hr>
+
+    <!-- ✅ Subject-Wise Performance -->
+    <h3>Subject-Wise Performance</h3>
+    {% if subject_analysis %}
+    <table class="table custom-table">
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Total Quizzes</th>
+                <th>Average Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for subject, data in subject_analysis.items() %}
+            <tr>
+                <td>{{ subject }}</td>
+                <td>{{ data.total_quizzes }}</td>
+                <td>{{ (data.average_score * 100)|round(2) }}%</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="no-data">No subject-wise data available.</p>
+    {% endif %}
+
+    <hr>
+
+    <!-- ✅ Attempted Quizzes Table -->
+    <h3>Attempted Quizzes</h3>
+    {% if attempted_quizzes %}
+    <table class="table custom-table">
+        <thead>
+            <tr>
+                <th>Quiz Title</th>
+                <th>Score</th>
+                <th>Total Questions</th>
+                <th>Percentage</th>
+                <th>Date Attempted</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for quiz in attempted_quizzes %}
+            <tr>
+                <td>{{ quiz.quiz_title }}</td>
+                <td>{{ quiz.score }}</td>
+                <td>{{ quiz.total_questions }}</td>
+                {% if quiz.total_questions != 0 %}
+                <td> {{ ((quiz.score/quiz.total_questions)*100)|round(2) }}%</td>
+                {% else %}
+                <td> N/A </td>
+                {% endif %}
+                <td>{{ quiz.date_attempted }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="no-data">No quizzes attempted yet.</p>
+    {% endif %}
+
+    <hr>
+
+    <!-- 🎯 Pie Chart: Quiz Attempts per Subject -->
+    <h3>Quiz Attempts Distribution</h3>
+    {% if subject_analysis %}
+    <img src="data:image/png;base64,{{ pie_chart }}" alt="Quiz Attempts per Subject" class="chart-img">
+    {% else %}
+    <p class="no-data">No data available for subject-wise quiz attempts.</p>
+    {% endif %}
+
+    <hr>
+
+    <!-- 🎯 Bar Chart: Average Score per Subject -->
+    <h3>Average Score per Subject</h3>
+    {% if subject_analysis %}
+    <img src="data:image/png;base64,{{ bar_chart }}" alt="Average Score per Subject" class="chart-img">
+    {% else %}
+    <p class="no-data">No data available for average scores.</p>
+    {% endif %}
+
+    <a href="{{ url_for('admin_users') }}" class="btn btn-secondary back-btn">Back to Users List</a>
+</div>
+
+{% endblock %}
+
+{% block style %}
+<style>
+    .summary-container {
+        max-width: 900px;
+        margin: auto;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .heading {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .print-btn {
+        margin-top: 10px;
+        font-size: 14px;
+    }
+
+    .custom-table {
+        width: 100%;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .custom-table th, .custom-table td {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #ddd;
+    }
+
+    .chart-img {
+        display: block;
+        max-width: 100%;
+        margin: 10px auto;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .back-btn {
+        display: block;
+        width: fit-content;
+        margin: 20px auto;
+        text-align: center;
+    }
+</style>
+{% endblock %}
+

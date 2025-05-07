@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Edit subject 
+{% endblock %}
+
+{% block content %}
+    <h1>Edit Subject</h1>
+    <form method="post" class="form">
+        <label for="name" class="form-label">Subject Name:
+            <input type="text" name="name" id="name" class="form-control" required value = "{{subject.name}}"/>
+        </label>
+        <label for="description" class="form-label">Description: 
+            <input type="text" name="description" id="description" class="form-control" value = "{{subject.description}}">
+        </label>
+        <input type="submit" value="Save" class="btn btn-success w-25 mx-auto">
+    </form>
+{% endblock %}
+
+{% block style %}
+<style>
+    h1 {
+        text-align: center;    
+    }
+    .form {
+        margin-top: 32px;
+        display: flex;
+        flex-direction: column;
+        /*align-items: center; */
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+{% endblock %}

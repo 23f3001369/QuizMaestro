@@ -1,0 +1,182 @@
+{% extends 'layout.html' %} 
+
+{% block title %} 
+{% if user.is_admin %}
+Admin's Profile - Quizz Maestro 
+{% else %}
+{{ user.name }}'s Profile - Quizz Maestro 
+{% endif %}
+{% endblock %} 
+
+{% block content %}
+<h1>
+  Welcome, {{ user.name }}!
+  <small class="text-muted">(@{{ user.username }})</small>
+</h1>
+<h2 class="text-muted">{{ user.email }}</h2>
+
+<h3>Edit Profile</h3>
+<form action="" method="post">
+  <label for="username" class="form-label">Username:
+    <input type="text" name="username" id="username" class="form-control" required value="{{ user.username }}" />
+  </label>
+  <label for="name" class="form-label">Name:
+    <input type="text" name="name" id="name" class="form-control" required value="{{ user.name }}" />
+  </label>
+  <label for="qualification" class="form-label">Qualification: 
+    <input type="text" name="qualification" id="qualification" class="form-control" required value="{{ user.qualification }}" />
+  </label>
+  <label for="cpassword" class="form-label">Current Password:
+    <input type="password" name="cpassword" id="cpassword" class="form-control" required />
+  </label>
+  <label for="password" class="form-label">New Password:
+    <input type="password" name="password" id="password" class="form-control" />
+  </label>
+  
+  <input type="submit" value="Save Changes" class="btn btn-success" />
+  <a href="{{ url_for('logout') }}" class="btn btn-outline-danger mt-2">Logout</a>
+</form>
+
+<hr />
+
+{% if not user.is_admin %}
+  <h3>Summary</h3>
+  <p><strong>Total Quizzes Attempted:</strong> {{ attempted_quizzes|length }}</p>
+
+  {% if attempted_quizzes %}
+  <h3>Your Performance</h3>
+  
+  {% else %}
+  <p>No quiz performance data available.</p>
+  {% endif %}
+
+  
+    <!-- ✅ Subject-Wise Performance -->
+    <h3>Subject-Wise Performance</h3>
+    {% if subject_analysis %}
+    <table class="table custom-table">
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Total Quizzes</th>
+                <th>Average Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for subject, data in subject_analysis.items() %}
+            <tr>
+                <td>{{ subject }}</td>
+                <td>{{ data.total_quizzes }}</td>
+                <td>{{ (data.average_score * 100)|round(2) }}%</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="no-data">No subject-wise data available.</p>
+    {% endif %}
+
+    <hr>
+
+    <!-- ✅ Attempted Quizzes Table -->
+    <h3>Your Attempted Quizzes</h3>
+    {% if attempted_quizzes %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Quiz</th>
+          <th>Score</th>
+          <th>Total Questions</th>
+          <th>Percentage</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for attempt in attempted_quizzes %}
+        <tr>
+          <td>
+            {% if attempt.quiz %}
+              {{ attempt.quiz.title }}
+            {% else %}
+              <em>Deleted Quiz</em>
+            {% endif %}
+          </td>
+          <td>{{ attempt.score }}</td>
+          <td>
+            {% if attempt.total_questions %}
+              {{ attempt.total_questions }}
+              
+            {% else %}
+              N/A
+            {% endif %}
+          </td>
+          <td>
+            {% if attempt.total_questions %}
+              {{ ((attempt.score/attempt.total_questions)*100)|round(2) }}
+            {% else %}
+              N/A
+            {% endif %}
+          </td>
+          <td>{{ attempt.date_attempted.strftime('%Y-%m-%d') }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p>No quizzes attempted yet.</p>
+    {% endif %}
+  
+    <hr />
+  
+
+    <!-- 🎯 Pie Chart: Quiz Attempts per Subject -->
+    <h3>Quiz Attempts Distribution</h3>
+    {% if subject_analysis %}
+    <img src="data:image/png;base64,{{ pie_chart }}" alt="Quiz Attempts per Subject" class="chart-img">
+    {% else %}
+    <p class="no-data">No data available for quiz attempts.</p>
+    {% endif %}
+
+
+    <hr>
+
+    <!-- 🎯 Bar Chart: Average Score per Subject -->
+    <h3>Average Score per Subject</h3>
+    {% if subject_analysis %}
+    <img src="data:image/png;base64,{{ bar_chart }}" alt="Average Score per Subject" class="chart-img">
+    {% else %}
+    <p class="no-data">No data available for average scores.</p>
+    {% endif %}
+    
+
+</div>
+
+{% endif %}
+{% endblock %}
+
+{% block style %}
+<style>
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    h1, h3 {
+        text-align: center;
+    }
+
+    .chart-img {
+        display: block;
+        max-width: 100%;
+        margin: 10px auto;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+</style>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='chart.min.js') }}"></script>
+
+{% endblock %}

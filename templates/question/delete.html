@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Delete Question - {{ question.question_text }}
+{% endblock %}
+
+{% block content %}
+    <h1>Delete Question</h1>
+    <p class="text-danger">Are you sure you want to delete this question?</p>
+    <strong>{{ question.question_text }}</strong>
+    <ul>
+        <li>Option 1: {{ question.option1 }}</li>
+        <li>Option 2: {{ question.option2 }}</li>
+        <li>Option 3: {{ question.option3 }}</li>
+        <li>Option 4: {{ question.option4 }}</li>
+    </ul>
+    
+    <form method="POST" action="{{ url_for('delete_question', question_id=question.id) }}">
+        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        <a href="{{ url_for('show_quiz', quiz_id=question.quiz_id) }}" class="btn btn-secondary">Cancel</a>
+    </form>
+
+{% endblock %}

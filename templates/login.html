@@ -1,0 +1,125 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Login - Quizz Maestro
+{% endblock %}
+
+{% block content %}
+<h1 class="welcome-text"> <b>QUIZZ MAESTRO</b> 
+    
+</h1>
+<div class="register-card">
+    <h2>Login to your account </h2>
+</div>
+
+    <div class="login-container">
+        <div class="login-card">
+            <form method="post">
+                <label for="username" class="form-label">Username: 
+                    <input type="text" name="username" id="username" class="form-control" required />
+                </label>
+            
+                <label for="password" class="form-label">Password: 
+                    <input type="password" name="password" id="password" class="form-control" required />
+                </label>
+
+                <input type="submit" value="Login" class="btn btn-success ">
+                <br>
+                <button type="submit" value="Clear" class="btn btn-secondary mt-3" onclick="clearFields()" class="clearbutton" style="width: 60%; padding: 10px; border-radius: 5px; margin-top: 0%;">Clear</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block style %}
+<style>
+    /* ✅ Background Image */
+    body {
+        background: url("{{ url_for('static', filename='images/bg.jpg') }}") no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Poppins', sans-serif;
+        color: white; /* Make text readable */
+    }
+
+    /* ✅ Centered Login Form */
+    .login-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 60vh;
+    }
+
+    .login-card {
+        background: rgba(0, 0, 0, 0.7); /* Dark overlay for contrast */
+        padding: 30px;
+        border-radius: 12px;
+        text-align: center;
+        width: 350px;
+        box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+
+    }
+
+    .welcome-text {
+        text-align: center;
+        font-size: 28px;
+        font-weight: bold;
+        color: #000000;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        margin-top: 20px;
+    }
+
+    .register-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        border-radius: 10px;
+        width: 40%;
+        margin: auto;
+        box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        box-sizing: border-box;
+    }
+
+    /* .register-card{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+    } */
+
+    input[type="text"], input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 5px;
+    }
+
+    input[type="submit"] {
+        width: 60%;
+        padding: 10px;
+        background: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    input[type="submit"]:hover {
+        background: #218838;
+    }
+</style>
+<script>
+    function clearFields() {
+        document.getElementById('username').value = "";
+        document.getElementById('password').value = "";
+    }
+</script>
+{% endblock %}

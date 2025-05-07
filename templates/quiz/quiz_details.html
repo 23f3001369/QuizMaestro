@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Quiz Details - {{ quiz.title }}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-4 p-4" style="max-width: 600px; margin: auto;">
+        <h2 class="text-center mb-3">{{ quiz.title }}</h2>
+        <hr>
+
+        <p><strong>📌 Quiz ID:</strong> {{ quiz.id }}</p>
+        <p><strong>📅 Start Date:</strong> {{ quiz.quiz_date }}</p>
+        <p><strong>❓ Number of Questions:</strong> {{ quiz.num_questions }}</p>
+        <div classs = "text-center mt-4">
+            <a href = "{{ url_for('home') }}" class = "btn btn-primary">Back to Quiz List
+
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Home - Quizz Master
+{% endblock %}
+
+{% block content %}
+    {% include 'searchbar.html' with context %}
+
+    <h1>Available Quizzes</h1>
+
+    <div class="subjects-list">
+        {% for subject in subjects %}
+            <div class="subject">
+                <h2>{{ subject.name }}</h2>
+                <p><b>Description: </b><em>{{ subject.description }}</em></p>
+
+                <div class="chapter-list">
+                    {% for chapter in subject.chapters %}
+                    {% if (parameter == 'chapter' and query and query.lower() in chapter.name.lower()) or parameter != 'chapter' %}
+                        <div class="chapter">
+                            <h3>{{ chapter.name }}</h3>
+                            <p><b>Description: </b><i>{{ chapter.description }}</i></p>
+
+                            <h5>Quizzes:</h5>
+                            <div class="quiz-list">
+                                {% if chapter.quizzes %}
+                                    {% for quiz in chapter.quizzes %}
+                                    {% if (parameter == 'quiz' and query and query.lower() in quiz.title.lower()) or parameter != 'quiz' %}
+                                        <div class="quiz-item">
+                                            <div class="btn-group">
+                                                <a href="{{ url_for('start_quiz', quiz_id=quiz.id) }}" class="btn btn-primary">
+                                                    Attempt {{ quiz.title }}
+                                                </a>
+                                                <a href="{{ url_for('view_quiz', quiz_id=quiz.id) }}" class="btn btn-secondary">
+                                                    View {{ quiz.title }}
+                                                </a>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    <p><em>No quizzes available</em></p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block style %}
+<style>
+    .subjects-list {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .subject {
+        margin-bottom: 32px;
+        width: 80%;
+    }
+    .chapter-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px;
+    }
+    .chapter {
+        margin: 16px;
+        padding: 16px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: 300px;
+    }
+
+    .chapter p, .subject p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    max-width: 100%;
+}
+
+
+    .quiz-list {
+        margin-top: 16px;
+    }
+    .quiz-item {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+    .btn-group {
+        display: flex;
+        gap: 10px;
+    }
+</style>
+{% endblock %}

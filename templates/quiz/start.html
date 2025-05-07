@@ -1,0 +1,101 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Attempt Quiz - {{ quiz.title }}
+{% endblock %}
+
+{% block content %}
+    <h2>Quiz: {{ quiz.title }}</h2>
+    <h3>Quiz Date: {{ quiz.quiz_date.strftime('%Y-%m-%d') }}</h3>
+    <div class="form" id="duration">
+        <h3>Duration: {{ quiz.duration }} minutes</h3>
+    </div>
+
+    <form action="{{ url_for('submit_quiz', quiz_id=quiz.id) }}" method="POST">
+        {% for question in questions %}
+            <div class="question">
+                <h4>{{ question.question_text }}</h4>
+
+                <label><input type="radio" name="question_{{ question.id }}" value="1" required> {{ question.option1 }}</label><br>
+                <label><input type="radio" name="question_{{ question.id }}" value="2" required> {{ question.option2 }}</label><br>
+                <label><input type="radio" name="question_{{ question.id }}" value="3" required> {{ question.option3 }}</label><br>
+                <label><input type="radio" name="question_{{ question.id }}" value="4" required> {{ question.option4 }}</label><br>
+
+            </div>
+            <hr>
+        {% endfor %}
+        <div style="text-align: center;">
+        <button type="submit" class="btn btn-success">Submit Quiz</button>
+        </div>
+    </form>
+{% endblock %}
+
+{% block style %}
+<style>
+    
+    .quiz-container {
+        background: #fff;
+        width: 60%;
+        max-width: 600px;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+       
+    }
+
+    h2 {
+        color: #333;
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    h3 {
+        color: #555;
+        font-size: 18px;
+        font-weight: 500;
+        margin-bottom: 15px;
+    }
+
+    .question {
+        background: #f8f9fc;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 12px 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        text-align: left;
+    }
+
+    label {
+        display: block;
+        background: #fff;
+        padding: 8px;
+        margin: 5px 0;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+    }
+
+    label:hover {
+        background: #e3e6f0;
+    }
+
+    input[type="radio"] {
+        margin-right: 8px;
+    }
+
+    button {
+        background: #28a745;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+
+        
+    }
+
+    
+    
+</style>
+{% endblock %}

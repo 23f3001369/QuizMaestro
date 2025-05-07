@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Delete subject 
+{% endblock %}
+
+{% block content %}
+    <h1>Delete subject</h1>
+    <h3 class="text-center text-danger">
+        Are you sure you want to delete subject <b>{{subject.name}}</b>?
+    </h3>
+    <form method="post" class="form">
+        <input type="submit" value="Delete" class="btn btn-danger">
+        <br>
+        <a href="{{ url_for('admin') }}" class="btn btn-secondary">Exit</a>
+    </form>
+    
+{% endblock %}
+
+{% block style %}
+<style>
+    h1 {
+        text-align: center;    
+    }
+    h3 {
+        margin: 32px auto;
+    }
+    form {
+        margin-top: 32px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+</style>
+{% endblock %}

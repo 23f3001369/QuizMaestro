@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Add Quiz for {{ chapter.name }}
+{% endblock %}
+
+{% block content %}
+    <h2>Add Quiz for {{ chapter.name }}</h2>
+
+    <form method="POST" action="{{ url_for('add_quiz', chapter_id=chapter.id) }}">
+        <div class="mb-3">
+            <label for="title" class="form-label">Quiz Title:</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="quiz_date" class="form-label">Quiz Date:</label>
+            <input type="date" class="form-control" id="quiz_date" name="quiz_date" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="duration" class="form-label">Duration (in minutes):</label>
+            <input type="number" class="form-control" id="duration" name="duration" required>
+        </div>
+        <button type="submit" class="btn btn-success add">Add Quiz</button>
+        <a href="{{ url_for('show_chapter', chapter_id=chapter.id) }}" class="btn btn-secondary cancel">Cancel</a>
+    </form>
+
+{% endblock %}
+
+{% block script %}
+<script>
+    // Set min date to today for the quiz date input
+    document.getElementById("quiz_date").min = new Date().toISOString().split('T')[0];
+</script>
+{% endblock %}
+
+{% block style %}
+<style>
+    form {
+        margin-top: 32px; 
+        margin-left: 30%;
+        margin-right: 30%;   
+    }
+    h2 {
+        text-align: center;
+    }
+    /* .add {
+        margin-left: 40%;
+        margin-right: 40%;
+    }
+    .cancel {
+        margin-left: 42%;
+        margin-right: 42%;
+    } */
+
+</style>
+{% endblock %}

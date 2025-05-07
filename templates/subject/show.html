@@ -1,0 +1,80 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Chapters of {{subject.name}} 
+{% endblock %}
+
+{% block content %}
+    <h1>Chapters of {{subject.name}} </h1>
+    <div class ="heading">
+        <h2 class="text-muted">Chapters</h2>
+        
+        <a class = "btn btn-success" href="{{url_for('add_chapter', subject_id=subject.id)}}">
+            <i class="fas fa-plus fa-xs"></i>
+            Add Chapter
+        </a>
+    </div>
+    <h5 class="text-muted">
+        <!-- <em> -->
+            Showing Chapters of {{subject.name}} only.
+        <!-- </em> -->
+    </h5>
+    <form class="d-flex ms-auto mb-3" role="search" action="{{ url_for('show_subject', subject_id=subject.id) }}" method="GET">
+        <input class="form-control me-2" type="search" name="query" placeholder="Search Chapter" aria-label="Search">
+        <button class="btn btn-primary" type="submit" >Search</button>
+    </form>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Chapter ID</th>
+                <th>Chapter Name</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+                {% for chapter in chapters %}
+                <tr>
+                    <td>{{chapter.id}}</td>
+                    <td>{{chapter.name}}</td>
+                    <td>{{chapter.description}}</td>
+                    <td>
+
+                        <a href="{{ url_for('show_chapter', chapter_id=chapter.id) }}" class="btn btn-outline-success">
+                            <i class="fas fa-eye fa-xs"></i> Show
+                        </a>
+
+                        <a class="btn btn-primary" href="{{url_for('edit_chapter',chapter_id=chapter.id)}}">
+                            <i class="fas fa-edit fa-xs"></i>
+                            Edit
+                        </a>
+
+                        <a class="btn btn-danger" href="{{url_for('delete_chapter',chapter_id=chapter.id)}}">
+                            <i class="fas fa-trash fa-xs"></i>
+                            Delete
+                        </a>    
+                    </td>
+                </tr>
+            
+                {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block style %}
+<style>
+    .heading{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    h1,h2 {
+        text-align: center;
+    }
+</style>
+{% endblock %}
+
+
+
+ 

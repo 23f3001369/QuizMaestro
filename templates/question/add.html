@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Add Question to {{ quiz.title }}
+{% endblock %}
+
+{% block content %}
+    <h1>Add Question to {{ quiz.title }}</h1>
+
+    <form method="POST" action="{{ url_for('add_question', quiz_id=quiz.id) }}">
+        <div class="mb-3">
+            <label for="question_text" class="form-label">Question</label>
+            <input type="text" class="form-control" id="question_text" name="question_text" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Options</label>
+            <input type="text" class="form-control" name="option1" placeholder="Option 1" required>
+            <input type="text" class="form-control" name="option2" placeholder="Option 2" required>
+            <input type="text" class="form-control" name="option3" placeholder="Option 3" required>
+            <input type="text" class="form-control" name="option4" placeholder="Option 4" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="correct_option" class="form-label">Correct Answer</label>
+            <select class="form-select" id="correct_option" name="correct_option" required>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+                <option value="4">Option 4</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-success">Add Question</button>
+        <a href="{{ url_for('show_quiz', quiz_id=quiz.id) }}" class="btn btn-secondary">Cancel</a>
+    </form>
+
+{% endblock %}
