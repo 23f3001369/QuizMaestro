@@ -10,4 +10,8 @@ Quizz Masestro is a Flask-based quiz application that allows users to take quizz
  -  Subject-wise Performance Analysis – View stats per subject.
  -  Printable Reports – Users can print their quiz summaries.
 
-🚀 Tech Stack Backend: Flask (Python) Database: SQLite Frontend: HTML, CSS, Bootstrap Authentication: Flask-Login
+### 🚀 Tech Stack 
+#### Backend: Flask (Python) 
+#### Database: SQLite 
+#### Frontend: HTML, CSS, Bootstrap 
+#### Authentication: Flask-Login
